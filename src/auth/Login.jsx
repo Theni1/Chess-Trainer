@@ -19,7 +19,6 @@ export default function Login () {
         <>
         <div className = "flex flex-col justify-center items-center gap-20">
         <h1 className = "text-3xl font-bold mt-30">Chess Puzzles</h1>
-        <p>Try unlimited puzzles</p>
         {!user ?
         <button className = "border py-1 px-2 rounded-lg cursor-pointer" onClick = {googleSignUp}>Login in with Google</button>:
         <button className = "border py-1 px-2 rounded-lg cursor-pointer" onClick = { () => navigate("/puzzles")}>Play now</button>}

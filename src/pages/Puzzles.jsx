@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, increment} from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom"
 
 
 export default function Puzzles() {
+  const [hasIncremented, setHasIncremented] = useState(false);
   const { user } = useAuth();
   const [solution, setSolution] = useState(null);
   const [solutionMove, setSolutionMove] = useState(1);
@@ -20,11 +21,13 @@ export default function Puzzles() {
   const [correctSquare, setCorrectSquare] = useState(null);
   const navigate = useNavigate()
 
-  if (!user){
-    navigate("/login")
-  }
+  async function puzzleCompleted() {
+  await updateDoc(doc(db, "users", user.uid), {
+    puzzles_completed: increment(1),
+  });
+}
+
   async function fetchPuzzle() {
-    console.log(user)
     let puzzleId = id;
     if (retry === false) {
       puzzleId = (
@@ -42,9 +45,7 @@ export default function Puzzles() {
     from: solution[0].slice(0, 2),
     to: solution[0].slice(2, 4),
     });
-    console.log(data)
-    console.log(solution)
-    console.log(puzzleStart)
+    setHasIncremented(false);
     setCorrectSquare(null);
     setErrorSquare(null);
     setSolutionMove(1);
@@ -53,6 +54,9 @@ export default function Puzzles() {
     setTurn(puzzleStart.turn());
     setRetry(false);
   }
+  useEffect(() => {
+  if (!user) navigate("/");
+  }, [user]);
 
   useEffect(() => {
     fetchPuzzle();
@@ -63,6 +67,19 @@ export default function Puzzles() {
       fetchPuzzle();
     }
   }, [retry]);
+
+  useEffect(() => {
+  if (!game) 
+    return;
+  if (hasIncremented) 
+    return
+  const completed = game.isGameOver() || game.turn() !== turn
+  if (completed) {
+    puzzleCompleted() 
+    setHasIncremented(true)
+  }
+}, [game, turn, hasIncremented])
+
 
   function getGameStatus() {
     if (!game) return "Loading";

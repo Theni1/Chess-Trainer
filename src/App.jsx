@@ -1,5 +1,15 @@
+import {Routes, Route} from "react-router-dom"
+import Puzzle from "./Puzzles.jsx"
+import Navbar from "./components/Navbar.jsx"
+import "./global.css"
+
 export default function App() {
   return (
-    <h1>Hello world</h1>
+    <>
+    <Navbar/>
+    <Routes>
+      <Route path = "/puzzles" element = {<Puzzle/>}/>
+    </Routes>
+    </>
   )
 }

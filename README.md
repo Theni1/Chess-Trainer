@@ -1,17 +1,45 @@
-# Chess-Trainer
-# React + Vite
+## Overview
+Chess-Trainer is a full-stack web application designed to help users improve their chess skills through 1,000+ unique tactical puzzles. Users can log in with Google OAuth, solve puzzles, and track their number of puzzles completed.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Technologies
 
-Currently, two official plugins are available:
+- React + Vite
+- Tailwind CSS
+- react-chessboard  (Interactive chessboard UI)
+- chess.js (Chess logic and move validation)
+- Firebase Authentication
+- Firebase Firestore
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How it works
 
-## React Compiler
+1. Users authenticate using Google OAuth via Firebase.
+2. A chess puzzle is fetched from Firestore and rendered on the chessboard.
+3. Correct moves advance the puzzle and incorrect moves give visual feedback.
+4. When a puzzle is completed, the user’s completed puzzle count is incremented and stored in Firestore.
+5. User progress is displayed in the navbar/profile popup.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## How to run locally
 
-## Expanding the ESLint configuration
+Clone the repository and install the dependencies:
+```
+git clone https://github.com/Theni1/Chess-Trainer.git
+cd Chess-Trainer
+npm install
+```
+Create a local `.env.local` file with the following:
+```
+VITE_FIREBASE_API_KEY=your_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_api_key_here
+VITE_FIREBASE_PROJECT_ID=your_api_key_here
+VITE_FIREBASE_STORAGE_BUCKET=your_api_key_here
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_api_key_here
+VITE_FIREBASE_APP_ID=your_api_key_here
+```
+Start the development server:
+```
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+
+

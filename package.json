@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@firebase-oss/ui-react": "^7.0.2-beta",
     "@tailwindcss/vite": "^4.1.18",
+    "chess.js": "^1.4.0",
     "firebase": "^12.8.0",
     "react": "^19.2.0",
+    "react-chessboard": "^5.8.6",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.12.0"
   },

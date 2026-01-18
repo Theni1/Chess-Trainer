@@ -1,10 +1,14 @@
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { db } from "../../config/firebase";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import { useEffect, useState, useCallback } from "react";
+import { useAuth } from "../auth/AuthProvider";
+import {useNavigate} from "react-router-dom"
+
 
 export default function Puzzles() {
+  const { user } = useAuth();
   const [solution, setSolution] = useState(null);
   const [solutionMove, setSolutionMove] = useState(1);
   const [turn, setTurn] = useState(null);
@@ -14,8 +18,13 @@ export default function Puzzles() {
 
   const [errorSquare, setErrorSquare] = useState(null);
   const [correctSquare, setCorrectSquare] = useState(null);
+  const navigate = useNavigate()
 
+  if (!user){
+    navigate("/login")
+  }
   async function fetchPuzzle() {
+    console.log(user)
     let puzzleId = id;
     if (retry === false) {
       puzzleId = (

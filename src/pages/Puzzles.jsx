@@ -171,8 +171,8 @@ export default function Puzzles() {
       )}
     </div>
     <div className = "flex justify-center gap-5 mt-6">
-    <button className = "border rounded-lg px-1 py-2 cursor-pointer" onClick={fetchPuzzle}>Generate new puzzle</button>
-    <button className = "border rounded-lg px-1 py-2 cursor-pointer" onClick={() => setRetry(true)}>Retry</button>
+    <button className = "py-1 px-2 rounded-lg cursor-pointer font-bold shadow-sm hover:scale-105 transition-transform duration-200 ease-out" onClick={fetchPuzzle}>Generate new puzzle</button>
+    <button className = "py-2 px-3 rounded-lg cursor-pointer font-bold shadow-sm hover:scale-105 transition-transform duration-200 ease-out" onClick={() => setRetry(true)}>Retry</button>
     </div>
   </>
   );

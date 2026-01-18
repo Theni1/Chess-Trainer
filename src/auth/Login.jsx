@@ -18,10 +18,10 @@ export default function Login () {
     return (
         <>
         <div className = "flex flex-col justify-center items-center gap-20">
-        <h1 className = "text-3xl font-bold mt-30">Chess Puzzles</h1>
+        <h1 className = "text-7xl font-bold mt-40">Chess Trainer</h1>
         {!user ?
-        <button className = "border py-1 px-2 rounded-lg cursor-pointer" onClick = {googleSignUp}>Login in with Google</button>:
-        <button className = "border py-1 px-2 rounded-lg cursor-pointer" onClick = { () => navigate("/puzzles")}>Play now</button>}
+        <button className = "py-3 px-6 text-lg rounded-lg cursor-pointer font-bold shadow-sm hover:scale-105 transition-transform duration-200 ease-out" onClick = {googleSignUp}>Login in with Google</button>:
+        <button className = "py-3 px-6 text-lg rounded-lg cursor-pointer font-bold shadow-sm hover:scale-105 transition-transform duration-200 ease-out" onClick = { () => navigate("/puzzles")}>Play now</button>}
         </div>
         </>
     )

@@ -12,7 +12,7 @@ export default function Navbar() {
     const [open, setOpen] = useState(false);
     const {user, userData} = useAuth()
     return (
-        <nav className = "flex flex-row justify-between items-center gap-10 border py-5 pl-5">
+        <nav className = "flex flex-row justify-between items-center gap-10 py-5 pl-5 shadow-lg font-bold">
             <Link to = "/">Home</Link>
         <div className = "flex gap-5 pr-5">
             {!user ? 

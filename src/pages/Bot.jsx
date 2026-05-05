@@ -5,6 +5,7 @@ import { useState, useCallback } from "react";
 export default function Bot() {
   const [game, setGame] = useState(new Chess());
   const [status, setStatus] = useState("Your turn (White)");
+  const [isThinking, setIsThinking] = useState(false);
 
   async function getBotMove(fen) {
     const res = await fetch("https://chess-trainer-production-b506.up.railway.app/move", {
@@ -19,6 +20,8 @@ export default function Bot() {
   const onDrop = useCallback(
     async ({ sourceSquare, targetSquare }) => {
       if (!targetSquare) return false;
+      if (isThinking) return false;
+      if (game.turn() !== "w") return false;
       try {
         const newGame = new Chess(game.fen());
         const move = newGame.move({ from: sourceSquare, to: targetSquare, promotion: "q" });
@@ -31,19 +34,22 @@ export default function Bot() {
           return true;
         }
 
+        setIsThinking(true);
         setStatus("Bot is thinking...");
         await new Promise(res => setTimeout(res, 600 + Math.random() * 1200));
         const botMove = await getBotMove(newGame.fen());
         newGame.move({ from: botMove.slice(0, 2), to: botMove.slice(2, 4), promotion: "q" });
         setGame(new Chess(newGame.fen()));
+        setIsThinking(false);
 
         setStatus(getStatus(newGame));
         return true;
       } catch {
+        setIsThinking(false);
         return false;
       }
     },
-    [game]
+    [game, isThinking]
   );
 
   function getStatus(g) {
@@ -57,6 +63,7 @@ export default function Bot() {
   function resetGame() {
     setGame(new Chess());
     setStatus("Your turn (White)");
+    setIsThinking(false);
   }
 
   return (
@@ -71,7 +78,7 @@ export default function Bot() {
           <Chessboard
             options={{
               position: game.fen(),
-              allowDragging: true,
+              allowDragging: !isThinking && game.turn() === "w",
               boardStyle: {
                 borderRadius: "12px",
                 boxShadow: "0 8px 40px rgba(0,0,0,0.6)",

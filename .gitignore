@@ -15,6 +15,10 @@ dist-ssr
 # Claude
 CLAUDE.md
 
+# Python
+__pycache__/
+*.pyc
+
 # ML data and model weights
 ml/data/*.pgn
 ml/src/*.pth

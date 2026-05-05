@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Claude
+CLAUDE.md
+
+# ML data and model weights
+ml/data/*.pgn
+ml/src/*.pth
+ml/notebooks/.ipynb_checkpoints/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -1,4 +1,5 @@
 import {Routes, Route} from "react-router-dom"
+import Bot from "./pages/Bot.jsx"
 import Puzzle from "./pages/Puzzles.jsx"
 import Navbar from "./components/Navbar.jsx"
 import Login from "./auth/Login.jsx"
@@ -11,6 +12,7 @@ export default function App() {
     <Routes>
       <Route path = "/" element = {<Login/>}/>
       <Route path = "/puzzles" element = {<Puzzle/>}/>
+      <Route path = "/bot" element = {<Bot/>}/>
     </Routes>
     </>
   )

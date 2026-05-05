@@ -2,3 +2,5 @@ torch
 python-chess
 jupyter
 numpy
+fastapi
+uvicorn

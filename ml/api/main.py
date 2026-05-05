@@ -1,7 +1,9 @@
+import os
 import chess
 import torch
 import torch.nn as nn
 import numpy as np
+import urllib.request
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -10,8 +12,8 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_methods=["POST"],
+    allow_origins=["http://localhost:5173", "https://chess-trainer-app.vercel.app"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -68,13 +70,32 @@ def fen_to_tensor(fen):
     return tensor
 
 
-model = ChessNet()
-model.load_state_dict(torch.load("../src/model.pth", map_location="cpu"))
-model.eval()
+MODEL_PATH = "model.pth"
+HF_URL = "https://huggingface.co/Thenuwara/chess-model/resolve/main/model.pth"
+model = None
+
+
+def get_model():
+    global model
+    if model is None:
+        if not os.path.exists(MODEL_PATH):
+            print("Downloading model from Hugging Face...")
+            urllib.request.urlretrieve(HF_URL, MODEL_PATH)
+            print("Download complete.")
+        m = ChessNet()
+        m.load_state_dict(torch.load(MODEL_PATH, map_location="cpu"))
+        m.eval()
+        model = m
+    return model
 
 
 class MoveRequest(BaseModel):
     fen: str
+
+
+@app.get("/")
+def health():
+    return {"status": "ok"}
 
 
 @app.post("/move")
@@ -84,7 +105,7 @@ def get_move(request: MoveRequest):
     input_tensor = torch.tensor(tensor).unsqueeze(0)
 
     with torch.no_grad():
-        output = model(input_tensor)
+        output = get_model()(input_tensor)
 
     move_indices = output[0].argsort(descending=True).tolist()
 

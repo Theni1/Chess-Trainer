@@ -50,17 +50,14 @@ npm run dev
 
 ### AI Bot (FastAPI server)
 
-Install Python dependencies:
-```bash
-cd ml
-pip install -r requirements.txt
-```
-
-Add your trained model weights to `ml/src/model.pth`, then start the server:
+Install Python dependencies and start the server:
 ```bash
 cd ml/api
+pip install -r requirements.txt
 uvicorn main:app --reload
 ```
+
+The server downloads model weights from Hugging Face on first request.
 
 The bot will be available at `http://127.0.0.1:8000`. The React app must also be running for the `/bot` route to work.
 
